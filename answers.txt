@@ -1,15 +1,45 @@
 DO NOT CHANGE THE FORMAT -- DO NOT CREATE A NEW txt file
 === Question 1.1 (5 marks) ===
 #Answer below
+The problems could arise when different machines have different Operating Systems built in them, lets say for example one machine uses
+a Linux Ubuntu and another Machine uses a Windows, these will cause the application to behave differently in these machines. There could
+be also a different version of the same operating system causing it to behave in a different manner in each machine.
+
+
+A shared build makes sure that even if each member of the team uses a different machine to build an application. The application will
+behave the same across all machines. This makes sure that the build is the same and no unexpected errors occur in the build.
 === Question 1.2 (5 marks) ===
 #Order of steps:
+compile the source code
+run the automated tests
+package the application
+deploy the application
+
+Packaging the application means that you are making sure that everything works accordingly in the application, It means that you make sur that
+everything works according to plan and has the expected outcome. Deploying an application is sending the application that is ready for user to use.
+For example if the Robot World application is ready for deployment, it means that it is ready for the user to use and we can get feedback from
+the user.
+
+
 #Answer below
 === Question 1.3 (5 marks) ===
 #Answer below
+A pom.xml file is a file that has all the built dependencies that the Java application need to run. Without the pom.xml file
+the Java program wont be  able to build or run the tests. It tells java the version of software it must run, what dependencies are needed,
+and anything else needed to run the program.
+
+In this context. The dependencies tes us that we will be using a sqlite to run the application.
+The groupId tells the application that we will be using dependencies from xerial.org. This lets the java program know where to get its dependencies.
+The artifactId tells java that we will be using jdbc, so the program will know to use jdbc from sqlite. The version tells us what version
+of sqlite-jdbc we will be using.
+
 === Question 1.4 (6 marks) ===
-#(a) New version:
+#(a) New version: 3.2.4
+API wasn't  changed there was no major change in the application so only a minor number will be changed
 #Reason:
-#(b) New version:
+#(b) New version: 3.1.5
+Nothing major was changed so we only change the last digits of the version number
 #Reason:
 #(c) New version:
-#Reason:
+#Reason: 4.0.0
+This will be a new version of the program.

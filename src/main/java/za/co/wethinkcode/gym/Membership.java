@@ -1,6 +1,6 @@
 package za.co.wethinkcode.gym;
 
-public class Membership {
+public  abstract  class Membership {
 
     private final String memberId;
     private final int monthsSubscribed;

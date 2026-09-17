@@ -11,3 +11,13 @@ compile:
   stage: compile
   script:
     - make compile
+
+test:
+  stage: test
+  script:
+    - make test
+
+package:
+  stage: package
+  script:
+    - make package
