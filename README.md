@@ -1,93 +1,283 @@
-# oop-044-bsdb
+# Formative Assessment
 
+## Learning Outcomes
 
+| Learning Outcome | Section |
+|---|---|
+| Build Pipelines / Scripting | Section 1 |
+| OOP | Section 2 |
+| Relational Database Design | Section 3 |
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Duration
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+**Total time: 2 hours 30 minutes**
 
-## Add your files
+| Section | Recommended Time |
+|---|---|
+| Section 1 — Build and Release Management | 50 minutes |
+| Section 2 — Practical Implementation | 55 minutes |
+| Section 3 — Database Schema Design | 45 minutes |
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+---
+
+## Scoring
+
+| Section | Marks |
+|---|---|
+| Section 1 — Build and Release Management | 21 |
+| Section 2 — Practical Implementation | 20 |
+| Section 3 — Database Schema Design | 20 |
+| **Total** | **61** |
+
+---
+
+# Section 1 — Build and Release Management
+
+## Scenario
+
+You have joined a team whose Java application has, until now, been released by
+copying a jar off whichever laptop last had a working build. The team wants to move
+to Maven and a shared pipeline instead, and you have been asked to explain the
+reasoning behind the change before it is rolled out.
+
+Write your answers in `answers.txt`, under the matching question heading. Do not
+change the format of the file or create a new one.
+
+| Task | Marks | What earns marks |
+|---|---|---|
+| Q1.1 — Two laptops, two results | 5 | Identifies three distinct causes rooted in the build not being reproducible (3), explains what a shared automated build gives the team instead (2) |
+| Q1.2 — The release process | 5 | Correct order of the four steps (1), correctly distinguishes packaging from deployment (2), explains why compiled class files alone are not something a user can run (2) |
+| Q1.3 — Dependencies and the pom | 5 | Accurate description of what `pom.xml` is for (2), correctly explains what the three coordinates identify and what a dependency is (1), explains why dependencies are declared in the pom rather than each developer sourcing them manually (2) |
+| Q1.4 — Versioning a release | 6 | Correct version number and sound reason for **(a)** (2), for **(b)** (2), and for **(c)** (2) |
+
+---
+
+### Q1.1 — Two Laptops, Two Results *(5 marks)*
+
+One developer packages the application on their laptop and hands the jar to a
+teammate, who runs it without issue. Two weeks later, a different developer checks
+out the same commit, packages it on their own laptop, and the jar fails to start.
+
+Explain what could cause a release built from the same source code to behave
+differently depending on which machine built it, and what a shared, automated build
+gives the team instead.
+
+> Identify at least three distinct causes.
+
+---
+
+### Q1.2 — The Release Process *(5 marks)*
+
+Below are four steps of a release, listed in the wrong order:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.wethinkco.de/performanceteam/java_assessments_oop/oop-044-bsdb.git
-git branch -M main
-git push -uf origin main
+package the application
+compile the source code
+deploy the application
+run the automated tests
 ```
 
-## Integrate with your tools
+State the correct order of these four steps. Then explain what it means to
+**package** an application and what it means to **deploy** it, and why the compiled
+class files on their own are not something you can hand to a user to run.
 
-* [Set up project integrations](https://gitlab.wethinkco.de/performanceteam/java_assessments_oop/oop-044-bsdb/-/settings/integrations)
+---
 
-## Collaborate with your team
+### Q1.3 — Dependencies and the pom *(5 marks)*
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+The application uses a library the team did not write. The library's jar is not
+committed to the repository, yet every developer's build ends up with it. This is the
+only place it is mentioned:
 
-## Test and Deploy
+```xml
+<dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.53.2.1</version>
+</dependency>
+```
 
-Use the built-in continuous integration in GitLab.
+Explain what `pom.xml` is for, what a dependency is in this context, and what the
+`groupId`, `artifactId` and `version` each identify. Then explain why dependencies are
+declared here rather than each developer downloading the jars themselves.
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+---
 
-***
+### Q1.4 — Versioning a Release *(6 marks)*
 
-# Editing this README
+The application is currently released at version `3.1.4`.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Each of the following changes is made **independently**, starting from `3.1.4` in every
+case. For each one, state the new version number and explain why:
 
-## Suggestions for a good README
+- **(a)** You fix a bug that threw an exception when a list happened to be empty. No
+  public API changes.
+- **(b)** You change the return type of an existing public method from `int` to
+  `long`.
+- **(c)** You add a new overloaded method that offers an optional extra parameter,
+  while the existing method keeps working exactly as before.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+# Section 2 — Practical Implementation
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Scenario
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+You have taken over the starter project in this repository, a small gym membership
+service. Different kinds of membership charge their total cost differently and
+require different notice periods to cancel. `MonthlyMembership` and
+`AnnualMembership` are both fully implemented.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+The build is currently broken, and the project does not compile.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+| Task | Marks | What earns marks |
+|---|---|---|
+| Q2.1 — Fix the build | 10 | Correctly identifies and adds the missing dependency using its Maven Central coordinates (5), dependency declared with the correct scope (2), and — with Q2.2 also complete — `make package` succeeds and produces a jar that runs with `java -jar` (3) |
+| Q2.2 — Fix the OOP structure | 4 | Correctly identifies why `Membership` does not compile (2), restores it as an abstract class, leaving the two method declarations and the subclasses' logic untouched (2) |
+| Q2.3 — Build a pipeline | 6 | Correct `stages` defined in the correct order (2), `test` job correctly defined in its own stage and runs the matching Makefile target (2), `package` job correctly defined in its own stage, runs the matching Makefile target and keeps the jar as an artifact (2) |
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Q2.1 — Fix the Build *(10 marks)*
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+A certain missing dependency is preventing this project from building correctly. Find
+the correct dependency and add it to `pom.xml` so that `make package` succeeds and
+produces a runnable jar.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+> You can search for artefacts on [Maven Central](https://mvnrepository.com/repos/central).
+>
+> `pom.xml` marks the spot. Read the build output carefully too — it names what it cannot find.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Q2.2 — Fix the OOP Structure *(4 marks)*
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+`Membership` is meant to be an abstraction. It holds the state and behaviour that
+every membership shares, but it cannot work out a total cost or a cancellation notice
+period on its own — only `MonthlyMembership` and `AnnualMembership` can do that, and
+each does it differently. As it stands, `Membership` does not compile.
 
-## License
-For open source projects, say how it is licensed.
+Analyse `Membership` and apply the fix so that the project compiles. Leave the two
+method declarations as they are, and do not change any of the cost or notice-period
+logic in the subclasses.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+> You may not modify the tests.
+>
+> This should take no more than 5 minutes.
+
+---
+
+### Q2.3 — Build a Pipeline *(6 marks)*
+
+This project builds using GitLab CI. The pipeline is defined in `.gitlab-ci.yml` and
+runs against the same `Makefile` targets you would use locally: `make compile`,
+`make test`, and `make package`.
+
+The image and the `compile` job are provided as a worked example. Define the
+`stages` for this pipeline, and add a job for each remaining stage, so that once
+pushed, the pipeline compiles the code, runs the test suite, and then packages the
+application, keeping the built jar as a pipeline artifact.
+> You are allowed to use the following [CI/CD docs](https://docs.gitlab.com/ci/yaml/).
+
+---
+
+# Section 3 — Database Schema Design
+
+## Scenario
+
+The gym service currently only prints to the console. The next step is to persist
+`members` and `memberships` in a real database. `resources/erd.png` is the entity
+relationship diagram for the two tables you need to create:
+
+![ERD](resources/erd.png)
+
+A `Database` class is already provided and knows how to open a JDBC connection to a
+SQLite database. `DatabaseSchema.createSchema(Connection connection)` is where the
+schema itself is created, but the method body is currently empty.
+
+> `resources/SQL-Cheat-Sheet.pdf` is provided as a reference if you need a refresher
+> on SQL syntax (data types, constraints, `CREATE TABLE`, etc.).
+
+| Task | Marks | What earns marks |
+|---|---|---|
+| Q3.1 — Create the `members` table | 8 | Correct columns and types (4), `id` declared as the primary key and `full_name`/`email` declared `NOT NULL` (4) |
+| Q3.2 — Create the `memberships` table | 8 | Correct columns and types (4), `id` declared as the primary key and `plan_type`/`months_subscribed`/`member_id` declared `NOT NULL` (4) |
+| Q3.3 — Foreign key | 4 | `memberships.member_id` correctly declared as a foreign key referencing `members.id` (4) |
+
+---
+
+### Q3.1 – Q3.3 — Create the Schema *(20 marks)*
+
+Implement `DatabaseSchema.createSchema(Connection connection)` so that it creates the
+`members` and `memberships` tables exactly as shown in the ERD, using standard SQL
+`CREATE TABLE` statements executed through the JDBC `Connection` you are given.
+
+> This task is schema creation only — you are not inserting or querying any data.
+>
+> Run `mvn test` to check your schema against `DatabaseSchemaTest`.
+
+---
+
+### End of Assessment
+
+---
+
+## Project structure
+
+```
+gym-assessment/
+  README.md
+  answers.txt
+  pom.xml
+  Makefile
+  .gitlab-ci.yml
+  resources/
+    erd.png
+    SQL-Cheat-Sheet.pdf
+  src/
+    main/java/za/co/wethinkcode/gym/
+      Membership.java
+      MonthlyMembership.java
+      AnnualMembership.java
+      Main.java
+      Database.java
+      DatabaseSchema.java
+    test/java/za/co/wethinkcode/gym/
+      MembershipTest.java
+      MonthlyMembershipTest.java
+      AnnualMembershipTest.java
+      DatabaseSchemaTest.java
+```
+
+## Useful commands
+
+```bash
+# Compile the source code
+mvn compile
+
+# Resolve and download every declared dependency
+mvn dependency:resolve
+
+# Run the test suite
+mvn test
+
+# Package the application into a jar
+mvn package -DskipTests
+
+# Run the packaged jar
+java -jar target/gym-assessment-jar-with-dependencies.jar
+```
+
+The `Makefile` wraps the same commands, and is what the GitLab CI pipeline runs:
+
+```bash
+make compile
+make test
+make package
+```
+
+Each section can be completed independently. `make package` does not run the test
+suite, so Section 2 can be finished and checked before you start Section 3. Once all
+three sections are complete, a plain `mvn package` will also succeed.
