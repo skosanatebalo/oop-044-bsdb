@@ -1,10 +1,15 @@
 DO NOT CHANGE THE FORMAT -- DO NOT CREATE A NEW txt file
 === Question 1.1 (5 marks) ===
 #Answer below
-The problems could arise when different machines have different Operating Systems built in them, lets say for example one machine uses
-a Linux Ubuntu and another Machine uses a Windows, these will cause the application to behave differently in these machines. There could
-be also a different version of the same operating system causing it to behave in a different manner in each machine.
+this can be caused by:
+- the developers using  different jdk versions, one developer might be using jdk version 17 and the other
+using jdk version 21. if the target server uses the old one an error will occur.
+causing the app to crash
+- different dependencies without a standardized build tool. dependencies
+are likely managed manually  or pointing to different directories. a developer
+might have an outdated or altered version of a library in their pc altering build logic
 
+-
 
 A shared build makes sure that even if each member of the team uses a different machine to build an application. The application will
 behave the same across all machines. This makes sure that the build is the same and no unexpected errors occur in the build.

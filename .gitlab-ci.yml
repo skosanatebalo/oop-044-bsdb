@@ -1,5 +1,8 @@
 image: maven:3.9-eclipse-temurin-17
-
+stages:
+  - compile
+  - test
+  - package
 before_script:
   - apt-get update -qq && apt-get install -y -qq make
 
@@ -21,3 +24,8 @@ package:
   stage: package
   script:
     - make package
+  artifacts:
+    paths:
+      - target/gym-assessment-jar-with-dependencies.jar
+
+
